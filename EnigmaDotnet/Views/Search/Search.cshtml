@@ -1,0 +1,20 @@
+@{
+    ViewBag.Title = "Поиск книг";
+}
+
+<h2>Поиск книг</h2>
+
+<div class="text-center">
+    @using (Html.BeginForm("SearchResults", "Search", FormMethod.Post))
+    {
+        <input type="text" name="searchString" placeholder="Введите запрос" class="form-control" />
+        <br />
+        <div>
+            <label><input type="checkbox" name="searchBy" value="Author" /> Автор</label>
+            <label><input type="checkbox" name="searchBy" value="Title" /> Название</label>
+            <label><input type="checkbox" name="searchBy" value="Year" /> Год издания</label>
+        </div>
+        <br />
+        <input type="submit" value="Поиск" class="btn btn-primary" />
+    }
+</div>

@@ -1,0 +1,68 @@
+@model IEnumerable<EnigmaDotnet.Models.Book>
+
+@{
+    ViewBag.Title = "Результаты поиска";
+}
+
+<h2>Результаты поиска</h2>
+
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    @if (@book.Image != null)
+                    {
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="data:image/jpeg;base64,@(Convert.ToBase64String(book.Image))" alt="Обложка">
+                    }
+                    else
+                    {
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/images/no_image.jpg" alt="Обложка">
+                    }
+                    <div class="card-body">
+                    <p class="card-text"><strong>Название:</strong> @book.Title</p>
+                    <p class="card-text"><strong>Автор:</strong> @book.Author.Name</p>
+                    <p class="card-text"><strong>Издатель:</strong> @book.Publisher</p>
+                    <p class="card-text"><strong>ISBN:</strong> @book.ISBN</p>
+                    <p class="card-text"><strong>Год:</strong> @book.Year</p>
+                    <p class="card-text"><strong>Количество:</strong> @book.Quantity</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Viewer"))
+                        {
+                            <div class="btn-group">
+                                <a asp-controller="Book" asp-action="BookDetails" asp-route-id="@book.BookId" type="button" class="btn btn-sm btn-outline-primary">Просмотр</a>
+                                @Html.ActionLink("Забронировать", "ReservationCreate", "Reservation", new { id = @book.BookId }, new { @class = "btn  btn-sm btn-outline-success" })
+                            </div>
+                        }
+                        else if (User.Identity.IsAuthenticated && (User.IsInRole("Worker") || User.IsInRole("Admin")))
+                        {
+                            <div class="btn-group-vertical me-2">
+                                <a asp-controller="Book" asp-action="BookDetails" asp-route-id="@book.BookId" type="button" class="btn btn-sm btn-outline-primary">Просмотр</a>
+                                @Html.ActionLink("Редактировать", "BookEdit", "Book", new { id = @book.BookId }, new { @class = "btn  btn-sm btn-outline-secondary" })
+                            </div>
+
+                            <div class="btn-group-vertical me-2">
+                                <button type="button" class="btn btn-sm btn-outline-success">Забронировать</button>
+                                @Html.ActionLink("Удалить", "BookDelete", "Book", new { id = @book.BookId }, new { @class = "btn  btn-sm btn-outline-danger" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="btn-group">
+                                <a asp-controller="Book" asp-action="BookDetails" asp-route-id="@book.BookId" type="button" class="btn btn-sm btn-outline-primary">Просмотр</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h4>Похоже, по вашему запросу не найдено ни одной книги.</h4>
+        @Html.ActionLink("Вернуться на страницу поиска", "Search", "Search", null, new {@class = "btn btn-primary"});
+    }
+</div>

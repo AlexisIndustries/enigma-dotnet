@@ -1,0 +1,50 @@
+@model EnigmaDotnet.Models.Book
+
+@{
+    ViewBag.Title = "Просмотр книги";
+}
+
+<h2>Просмотр книги</h2>
+
+<div>
+    <h4>Книга</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Название</dt>
+        <dd>@Model.Title</dd>
+
+        <dt>Автор</dt>
+        <dd>@Model.Author.Name</dd>
+
+        <dt>Издатель</dt>
+        <dd>@Model.Publisher</dd>
+
+        <dt>ISBN</dt>
+        <dd>@Model.ISBN</dd>
+
+        <dt>Год</dt>
+        <dd>@Model.Year</dd>
+
+        <dt>Количество</dt>
+        <dd>@Model.Quantity</dd>
+
+        <dt>Обложка</dt>
+        <dd>
+            @if (@Model.Image != null)
+            {
+            <img class="img-thumbnail" width="200px" height="225px" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Image))" alt="Обложка">
+            }
+            else
+            {
+            <img class="img-thumbnail" width="200px" height="225px" src="/images/no_image.jpg" alt="Обложка">
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @if(User.Identity.IsAuthenticated && (User.IsInRole("Worker") || User.IsInRole("Admin"))) {
+        @Html.ActionLink("Редактировать", "BookEdit", "Book", new { id = Model.BookId }, new {@class = "btn btn-primary"});
+    }
+    @Html.ActionLink("Забронировать", "Index", "Home", null, new {@class = "btn btn-success"})
+    @Html.ActionLink("Вернуться к списку", "Index", "Home", null, new {@class = "btn btn-primary"})
+</p>

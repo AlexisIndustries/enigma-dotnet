@@ -1,0 +1,33 @@
+@model EnigmaDotnet.Models.Reservation
+
+@{
+    ViewBag.Title = "Удаление брони";
+}
+
+<h2>Удаление брони</h2>
+
+<h3>Вы уверены, что хотите удалить эту бронь?</h3>
+<div>
+    <h4>Бронирование</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Книга</dt>
+        <dd>@Model.Book.Title</dd>
+
+        <dt>Дата бронирования</dt>
+        <dd>@Model.ReservationDate.ToString("dd/MM/yyyy")</dd>
+
+        <dt>Статус</dt>
+        <dd>@Model.Status.ToString()</dd>
+    </dl>
+    
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ReservationId)
+        <div class="form-group">
+            <input type="submit" value="Удалить" class="btn btn-danger" /> 
+            @Html.ActionLink("Отмена", "WorkerReservations", "Reservations", htmlAttributes: new {@class = "btn btn-primary"})
+        </div>
+    }
+</div>

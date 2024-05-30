@@ -1,0 +1,31 @@
+@model EnigmaDotnet.Models.Reservation
+
+@{
+    ViewBag.Title = "Бронирование книги";
+}
+
+<h2>Бронирование книги</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.BookId)
+
+    @*<div class="form-group">
+        @Html.LabelFor(model => model.ReservationDate, "Дата брони", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.ReservationDate, new { htmlAttributes = new { @class = "form-control disabled" } })
+        @Html.ValidationMessageFor(model => model.ReservationDate, "", new { @class = "text-danger" })
+    </div>*@
+    <div class="form-group">
+        @Html.LabelFor(model => model.ReturnDate, "Дата возврата", htmlAttributes: new { @class = "control-label col-md-2"  })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <input type="submit" value="Подтвердить бронь" class="btn btn-primary" />
+    </div>
+}

@@ -1,0 +1,30 @@
+@model EnigmaDotnet.Models.RegisterViewModel
+<h2>Регистрация нового пользователя</h2>
+<form class="" method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Email"></label><br />
+        <input class="form-control" asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Password"></label><br />
+        <input class="form-control" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="PasswordConfirm"></label><br />
+        <input class="form-control" asp-for="PasswordConfirm" />
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+    <label asp-for="Role" class="col-md-2 control-label"></label>
+    <div class="mb-3">
+        <select class="form-select" asp-for="Role" asp-items="Html.GetEnumSelectList<Role>()">
+            <option selected="selected" value="">Выберите роль пользователя</option>
+        </select>
+        <span asp-validation-for="Role" class="text-danger" />
+    </div>
+    <div>
+        <input type="submit" class="btn btn-primary" value="Регистрация" />
+    </div>
+</form>
